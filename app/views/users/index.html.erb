@@ -1,5 +1,8 @@
-<h1>Users#index</h1>
 <h2>ユーザー情報一覧</h2>
+
+<% if flash.notice %>
+    <p class="notice"><%= flash.notice %></p>
+<% end %>
 
 <table> 
     <thead>
@@ -11,8 +14,12 @@
             <th>一言紹介</th>
             <th>更新日</th>
             <th>作成日</th>
+            <th>参照</th>
+            <th>編集</th>
+            <th>削除</th>
         </tr>
     </thead>
+    
     <tbody>
         <% @users.each do |user| %>
             <tr>
@@ -21,12 +28,55 @@
                 <td><%= user.email %></td>
                 <td><%= user.age %></td>
                 <td><%= user.introduction %></td>
-                <td><%= user.updated_at %></td>
-                <td><%= user.created_at %></td>
+                <td><%= user.updated_at.to_s(:datetime_jp) %></td>
+                <td><%= user.created_at.to_s(:datetime_jp) %></td>
+                <td>
+                <%= button_to "参照", user %>
+                </td>
+                <td>
+                <%= button_to "編集", [:edit, user] %>
+                </td>
+                <td>
+                <%= button_to "削除", user, method: :delete, data: { confirm: "本当に削除しますか？"} %>
+                </td>
+            </tr>
+        <% end %>
+    </tbody>
+</table>
+
+<h2>投稿一覧</h2>
+
+<table> 
+    <thead>
+        <tr>
+            <th>投稿内容</th>
+            <th>更新日時</th>
+            <th>投稿日時</th>
+            <th>投稿者(User_id)</th>
+            <th>参照</th>
+            <th>編集</th>
+            <th>削除</th>
+        </tr>
+    </thead>
+    <tbody>
+        <% @posts.each do |post| %>
+            <tr>
+                <td><%= post.content %></td>
+                <td><%= post.updated_at.to_s(:datetime_jp) %></td>
+                <td><%= post.created_at.to_s(:datetime_jp) %></td>
+                <td><%= post.user_id %></td>
+                <td>
+                    <%= button_to "参照", post %>
+                </td>
+                <td>
+                    <%= button_to "編集", [:edit, post] %>
+                </td>
+                <td>
+                    <%= button_to "削除", post, method: :delete, data: { confirm: "本当に削除しますか？" } %>
+                </td>
             </tr>
         <% end %>
     </tbody>
 </table>
 
 <p><%= link_to "ユーザー新規登録", :new_user %></p>
-<p>Find me in app/views/users/index.html.erb</p>
